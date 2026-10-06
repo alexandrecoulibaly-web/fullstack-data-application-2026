@@ -28,9 +28,9 @@ def list_items(
 ):
     items = list(FAKE_DB.values())
     if q:
-        items = [i for i in items if q.lower() in i["titre"]]
+        items = [i for i in items if q.lower() in i["titre"].lower()]
     if disponible is not None:
-        items = [i for i in items if i["disponible"]]
+        items = [i for i in items if i["disponible"] == disponible]
     return items[skip : skip + limit]
 
 @router.post("", response_model=ItemRead, status_code=201)
