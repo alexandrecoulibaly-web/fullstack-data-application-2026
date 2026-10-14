@@ -4,6 +4,11 @@
 
 {% block content %}
 <h1>Objets disponibles</h1>
+
+<p>
+    <a href="/items/new">Proposer un objet</a>
+</p>
+
 {% if items %}
 <table>
   <thead>
@@ -17,7 +22,7 @@
   <tbody>
   {% for item in items %}
     <tr>
-      <td>{{ item.titre }}</td>
+      <td><a href="/items/{{ item.id }}">{{ item.titre }}</a></td>
       <td>{{ item.description }}</td>
       <td>{{ item.tarif_jour }}</td>
       <td>{{ "Oui" if item.disponible else "Non" }}</td>

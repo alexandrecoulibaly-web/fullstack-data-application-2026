@@ -1,0 +1,29 @@
+
+{% extends "base.html" %}
+
+{% block title %}{{ item.titre }} — GearShare{% endblock %}
+
+{% block content %}
+
+<h1>{{ item.titre }}</h1>
+
+<h2>Description</h2>
+<p>{{ item.description }}</p>
+
+<h2>Tarif</h2>
+<p>{{ item.tarif_jour }} € / jour</p>
+
+<h2>Statut</h2>
+<p>
+    {% if item.disponible %}
+        Disponible
+    {% else %}
+        Indisponible
+    {% endif %}
+</p>
+
+<p>
+    <a href="/items">← Retour à la liste</a>
+</p>
+
+{% endblock %}
