@@ -28,8 +28,7 @@ SELECT * FROM items WHERE titre = 'Item de test 123456';
 
 | Mesure | Avant index | Après index |
 |---|---:|---:|
-| Nœud principal | à compléter | à compléter |
-| Execution Time (ms) | à compléter | à compléter |
+| Execution Time (ms) | 11.747 ms | 0.061 ms |
 
 Facteur d'accélération : `temps_avant / temps_après = ...`.
 
