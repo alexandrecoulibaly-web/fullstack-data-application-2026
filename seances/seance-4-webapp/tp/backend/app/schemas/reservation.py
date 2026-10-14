@@ -24,3 +24,7 @@ class ReservationRead(BaseModel):
     date_debut: date
     date_fin: date
     statut: Literal["active", "annulee"]
+
+
+class ReservationUpdate(BaseModel):
+    statut: Literal["annulee"]

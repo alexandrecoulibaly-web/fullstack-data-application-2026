@@ -62,6 +62,9 @@ class ApiClient:
     def get_item(self, item_id: int) -> dict[str, Any]:
         return self._send("GET", f"/items/{item_id}")
 
+    def list_reservations(self, item_id: int) -> list[dict[str, Any]]:
+        return self._send("GET", "/reservations", params={"item_id": item_id})
+
     def create_item(
         self,
         titre: str,
@@ -85,6 +88,15 @@ class ApiClient:
             "POST",
             "/reservations",
             json={"item_id": item_id, "date_debut": date_debut.isoformat(), "date_fin": date_fin.isoformat()},
+        )
+
+    def cancel_reservation(
+        self, reservation_id: int, statut: str = "annulee"
+    ) -> dict[str, Any]:
+        return self._send(
+            "PATCH",
+            f"/reservations/{reservation_id}",
+            json={"statut": statut},
         )
 
 

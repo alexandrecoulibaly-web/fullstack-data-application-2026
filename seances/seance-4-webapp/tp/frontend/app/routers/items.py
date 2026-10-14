@@ -27,7 +27,17 @@ def new_item_page(request: Request) -> HTMLResponse:
 @router.get("/items/{item_id}", response_class=HTMLResponse)
 def item_detail_page(request: Request, item_id: int) -> HTMLResponse:
     item = api_client.get_item(item_id)
-    return templates.TemplateResponse(request, "items/detail.html", {"item": item})
+    reservations = api_client.list_reservations(item_id)
+    return templates.TemplateResponse(
+        request,
+        "items/detail.html",
+        {
+            "item": item,
+            "reservations": reservations,
+            "erreurs": [],
+            "saisie": {},
+        },
+    )
 
 
 @router.post("/items")
