@@ -16,6 +16,8 @@ services:
       dockerfile: Dockerfile
     environment:
       - API_BASE_URL=http://backend:8000
+    depends_on:
+      - backend
     ports:
       - "8080:8080"
     volumes:
