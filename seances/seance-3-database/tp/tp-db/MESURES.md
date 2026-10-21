@@ -27,7 +27,7 @@ SELECT * FROM items WHERE titre = 'Item de test 123456';
 |---|---:|---:|
 | Execution Time (ms) | 11.747 ms | 0.061 ms |
 
-Facteur d'accélération : `temps_avant / temps_après = 192.57 ms`.
+Facteur d'accélération : `temps_avant / temps_après = 192,57`.
 
 ## Cas subtils
 

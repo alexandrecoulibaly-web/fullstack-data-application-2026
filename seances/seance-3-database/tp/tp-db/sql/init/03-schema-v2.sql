@@ -15,6 +15,33 @@ CREATE TABLE avis (
 
 CREATE INDEX avis_reservation_id_idx ON avis (reservation_id);
 
+CREATE FUNCTION verifier_reservation_terminee()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM reservations
+        WHERE id = NEW.reservation_id
+          AND statut = 'terminee'
+    ) THEN
+        RAISE EXCEPTION
+            'avis_reservation_terminee: un avis doit concerner une réservation terminée'
+            USING ERRCODE = '23514',
+                  CONSTRAINT = 'avis_reservation_terminee';
+    END IF;
+
+    RETURN NEW;
+END;
+$$;
+
+CREATE CONSTRAINT TRIGGER avis_reservation_terminee
+AFTER INSERT OR UPDATE OF reservation_id ON avis
+DEFERRABLE INITIALLY IMMEDIATE
+FOR EACH ROW
+EXECUTE FUNCTION verifier_reservation_terminee();
+
 CREATE TABLE tags (
     id BIGINT GENERATED ALWAYS AS IDENTITY,
     libelle VARCHAR(80) NOT NULL,

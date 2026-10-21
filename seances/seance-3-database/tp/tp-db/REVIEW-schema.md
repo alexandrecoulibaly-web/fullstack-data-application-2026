@@ -9,7 +9,7 @@
 | Note bornée par `CHECK (note BETWEEN 1 AND 5)` | OK | `avis_note_check`. |
 | Table item/tag avec clé primaire composite | OK | `PRIMARY KEY (item_id, tag_id)`. |
 | Libellé de tag `UNIQUE` | OK | `tags_libelle_key`, avec contrôle complémentaire des minuscules. |
-| Contraintes nommées | OK | Les contraintes métier ont toutes un nom explicite. |
+| Contraintes nommées | OK | Les contraintes métier ont toutes un nom explicite, y compris le trigger `avis_reservation_terminee`. |
 | Index sur les clés étrangères | OK | Index ajoutés sur les FK utilisées pour les jointures. |
 | Non-chevauchement réellement garanti | OK | `reservations_active_no_overlap` utilise `EXCLUDE USING gist` et `daterange`. |
 | Aucun flottant pour un montant, aucun `TIMESTAMP` sans fuseau | OK | `NUMERIC` pour les montants et `TIMESTAMPTZ` pour les horodatages. |
@@ -24,8 +24,9 @@ suppression physique dans ce cas. Les avis suivent la réservation et sont suppr
 
 ## Mécanismes par règle
 
-1. Avis : FK vers `reservations`, `UNIQUE` sur `reservation_id`, `CHECK` sur la note ; le statut
-   `terminee` reste une règle métier à contrôler par l'application ou un trigger.
+1. Avis : FK vers `reservations`, `UNIQUE` sur `reservation_id`, `CHECK` sur la note et trigger
+   `avis_reservation_terminee`. L'emprunteur est identifié sans ambiguïté par
+   `reservations.borrower_id` ; l'application doit utiliser cette relation comme auteur de l'avis.
 2. Tags : table `tags` unique et table de liaison `item_tags` à clé primaire composite.
 3. Libellés : `UNIQUE` et `CHECK (libelle = LOWER(libelle))`.
 4. Réservations actives qui se chevauchent : contrainte PostgreSQL `EXCLUDE` avec `btree_gist`.
