@@ -19,7 +19,7 @@ CREATE TABLE items (
 CREATE TABLE reservations (
     id          BIGSERIAL PRIMARY KEY,
     item_id     BIGINT NOT NULL REFERENCES items(id) ON DELETE CASCADE,
-    borrower_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    borrower_id BIGINT NOT NULL REFERENCES users(id),
     date_debut  DATE   NOT NULL,
     date_fin    DATE   NOT NULL,
     statut      VARCHAR(20) NOT NULL DEFAULT 'active',
