@@ -2,7 +2,7 @@
 
 | Point de contrôle | OK / KO | Ce que j'ai corrigé |
 |---|---|---|
-| Chaque table a une clé primaire | OK | PK sur `users`, `items`, `reservations`, `avis`, `tags` et PK composite sur `item_tags`. |
+| Chaque table a une clé primaire | OK | Primary Key sur `users`, `items`, `reservations`, `avis`, `tags` et Primary Key composite sur `item_tags`. |
 | Les clés étrangères sont déclarées avec `REFERENCES` | OK | Toutes les relations sont déclarées explicitement. |
 | Les `ON DELETE` sont explicites et cohérents avec le métier | OK | Cascade pour le matériel dépendant et les avis/tags de liaison ; emprunteur sans cascade. |
 | Un seul avis par réservation via `UNIQUE` | OK | `avis_reservation_id_key`. |
@@ -16,11 +16,7 @@
 
 ## Décision métier sur la suppression d'un utilisateur
 
-Un compte ne doit pas effacer l'historique des prêts effectués sur son matériel : la FK
-`reservations.borrower_id` reste donc restrictive (comportement PostgreSQL par défaut). Les items
-du propriétaire sont supprimés en cascade, mais cette suppression est volontairement bloquée s'ils
-ont encore des réservations ; l'application devra proposer une désactivation plutôt qu'une
-suppression physique dans ce cas. Les avis suivent la réservation et sont supprimés avec elle.
+Pour GearShare, je choisirais de ne pas supprimer automatiquement l'historique des prêts lors de la suppression d'un compte. Un utilisateur peut être propriétaire de matériel emprunté par d'autres personnes, mais également avoir lui-même emprunté du matériel. Supprimer toutes les réservations avec ON DELETE CASCADE ferait perdre une partie de l'historique de ces autres utilisateurs. Je préférerais donc conserver les réservations historiques et gérer la suppression du compte autrement, par exemple en désactivant ou anonymisant l'utilisateur. Les cascades sont adaptées aux données qui n'ont plus de sens sans leur parent, mais l'historique des prêts peut conserver une valeur indépendamment de l'existence du compte.
 
 ## Mécanismes par règle
 
