@@ -1,4 +1,4 @@
--- 1. Items disponibles à moins de 10 EUR/jour.
+-- 1. Les items disponibles à moins de 10 €/jour, triés par tarif croissant.
 SELECT id, titre, tarif_jour
 FROM items
 WHERE disponible AND tarif_jour < 10

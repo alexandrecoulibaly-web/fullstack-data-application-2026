@@ -18,9 +18,6 @@ ANALYZE items;
 
 ## Recherche exacte avant et après index
 
-À exécuter avant l'index, puis après `CREATE INDEX items_titre_idx ON items (titre);` et
-`ANALYZE items;`.
-
 ```sql
 EXPLAIN ANALYZE
 SELECT * FROM items WHERE titre = 'Item de test 123456';
@@ -30,7 +27,7 @@ SELECT * FROM items WHERE titre = 'Item de test 123456';
 |---|---:|---:|
 | Execution Time (ms) | 11.747 ms | 0.061 ms |
 
-Facteur d'accélération : `temps_avant / temps_après = ...`.
+Facteur d'accélération : `temps_avant / temps_après = 192.57 ms`.
 
 ## Cas subtils
 
