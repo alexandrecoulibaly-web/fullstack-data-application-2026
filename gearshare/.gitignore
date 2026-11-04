@@ -1,0 +1,23 @@
+# Variables d'environnement
+.env
+
+# Environnement virtuel
+venv/
+.venv/
+env/
+
+# Cache Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Cache pytest
+.pytest_cache/
+
+# Cache de type checking et outils courants
+.mypy_cache/
+.ruff_cache/
+
+# Fichiers de couverture
+.coverage
+htmlcov/
