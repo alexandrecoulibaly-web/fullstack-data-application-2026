@@ -1,0 +1,43 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: gearshare
+      POSTGRES_PASSWORD: gearshare
+      POSTGRES_DB: gearshare
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U gearshare -d gearshare"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  backend:
+    build: ./backend
+    env_file: .env
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend/app:/code/app
+      - ./backend/alembic:/code/alembic
+      - ./backend/alembic.ini:/code/alembic.ini
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  frontend:
+    build: ./frontend
+    environment:
+      API_BASE_URL: http://backend:8000
+    depends_on:
+      - backend
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./frontend/app:/code/app
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8080 --reload
+
+volumes:
+  pgdata:
