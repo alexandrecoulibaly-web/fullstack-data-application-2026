@@ -20,6 +20,13 @@ class ItemUpdate(BaseModel):
     disponible: bool | None = None
 
 
+class OwnerRead(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    display_name: str
+
+
 class ItemRead(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
@@ -29,3 +36,4 @@ class ItemRead(BaseModel):
     description: str | None
     tarif_jour: Decimal
     disponible: bool
+    owner: OwnerRead

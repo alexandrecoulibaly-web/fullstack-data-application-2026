@@ -1,5 +1,5 @@
 from sqlalchemy import select
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 
 from app.models.item import Item
 
@@ -9,7 +9,12 @@ class ItemRepository:
         self.db = db
 
     def get(self, item_id: int) -> Item | None:
-        return self.db.scalar(select(Item).where(Item.id == item_id))
+        statement = (
+            select(Item)
+            .options(joinedload(Item.owner))
+            .where(Item.id == item_id)
+        )
+        return self.db.scalar(statement)
 
     def list(
         self,
@@ -19,7 +24,7 @@ class ItemRepository:
         query: str | None = None,
         disponible: bool | None = None,
     ) -> list[Item]:
-        statement = select(Item)
+        statement = select(Item).options(joinedload(Item.owner))
         if query:
             statement = statement.where(Item.titre.ilike(f"%{query}%"))
         if disponible is not None:

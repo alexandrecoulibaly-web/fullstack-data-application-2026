@@ -28,8 +28,20 @@ Un gestionnaire global dans `app/main.py` traduit les exceptions métier en
 réponses HTTP. Ce choix évite de répéter le même `try/except` dans chaque
 route, tout en laissant les services indépendants de FastAPI.
 
-## État des vérifications
+## Étape 5 — N+1 sur le propriétaire
 
-Les comptages N+1, les tests HTTP avec Docker et les modifications du frontend
-appartiennent aux étapes 5 et 6 ; ils ne sont pas déclarés comme effectués
-dans ce livrable.
+Le schéma `OwnerRead` expose uniquement `id` et `display_name`. Il n'expose
+ni `email` ni `password_hash`. Le repository charge la relation `Item.owner`
+avec `joinedload`, avant la sérialisation Pydantic.
+
+Avec `SQL_ECHO=true`, une page contrôlée de 20 items mesurait auparavant
+**21 requêtes `SELECT`** : une requête pour les items, puis une requête par
+propriétaire lors de la sérialisation. Après l'ajout de `joinedload`, la même
+page mesure **1 requête `SELECT`**, car les propriétaires sont récupérés dans
+la requête initiale.
+
+La mesure a été faite avec une base PostgreSQL locale Docker et la requête
+`GET /items?limit=50`. La réponse contient bien le propriétaire public de
+chaque item et les logs ne contiennent qu'une requête `SELECT` pour la liste.
+Le test contrôlé de 20 items a donné les chiffres ci-dessus. `SQL_ECHO` a été
+remis à `false` après la vérification.
