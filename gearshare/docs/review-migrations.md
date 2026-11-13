@@ -45,3 +45,16 @@ La mesure a été faite avec une base PostgreSQL locale Docker et la requête
 chaque item et les logs ne contiennent qu'une requête `SELECT` pour la liste.
 Le test contrôlé de 20 items a donné les chiffres ci-dessus. `SQL_ECHO` a été
 remis à `false` après la vérification.
+
+## Modifications du frontend à l'étape 6.4
+
+Le contrat de création d'un item exige désormais `owner_id`, et le contrat de
+création d'une réservation exige `borrower_id`. Le frontend envoie donc
+provisoirement `owner_id=1` et `borrower_id=1` depuis ses routes de création,
+avec la valeur signalée par `TODO séance 5`; ces identifiants correspondent à
+l'utilisateur de démonstration inséré dans PostgreSQL.
+
+Le frontend conserve le traitement des erreurs `422` de validation pour la
+création d'un item et affiche aussi les `409` du backend sur le formulaire de
+réservation. Il affiche ainsi le message métier en cas de créneau déjà
+réservé, au lieu de renvoyer vers la page d'erreur générique.

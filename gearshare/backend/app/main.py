@@ -3,6 +3,7 @@ from fastapi.responses import JSONResponse
 
 from app.core.exceptions import BusinessError, ResourceNotFound
 from app.routers.items import router as items_router
+from app.routers.reservations import router as reservations_router
 
 app = FastAPI(title="GearShare")
 
@@ -21,3 +22,4 @@ def health() -> dict[str, str]:
 
 
 app.include_router(items_router)
+app.include_router(reservations_router)

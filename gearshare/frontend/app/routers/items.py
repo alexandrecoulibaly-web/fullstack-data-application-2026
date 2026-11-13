@@ -54,6 +54,7 @@ def create_item_page(
             description or None,
             tarif_jour,
             disponible,
+            owner_id=1,  # TODO séance 5 : utiliser l'utilisateur connecté
         )
     except ApiError as exc:
         if exc.status_code != 422:
