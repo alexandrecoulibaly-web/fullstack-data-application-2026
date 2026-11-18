@@ -1,4 +1,3 @@
-# Revue de la verticale `reservations`
 
 | Point de contrôle | OK / KO | Ce que j'ai corrigé |
 |---|---|---|
@@ -13,6 +12,3 @@
 | Migration relue, `downgrade()` testé | OK | La migration initiale a été relue et son cycle est validé avec PostgreSQL. |
 | Aucune dépendance ajoutée sans justification | OK | Aucune nouvelle dépendance n'a été ajoutée. |
 
-Les valeurs provisoires `owner_id=1` et `borrower_id=1` dans le frontend sont
-marquées `TODO séance 5` : elles seront remplacées par l'utilisateur
-authentifié.

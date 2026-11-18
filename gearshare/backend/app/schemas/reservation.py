@@ -13,7 +13,7 @@ class ReservationCreate(BaseModel):
     @model_validator(mode="after")
     def validate_dates(self) -> "ReservationCreate":
         if self.date_fin <= self.date_debut:
-            raise ValueError("date_fin doit être postérieure à date_debut")
+            raise ValueError("la date de fin de réservation doit être postérieure à la date de début")
         return self
 
 

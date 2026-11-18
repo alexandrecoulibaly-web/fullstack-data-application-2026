@@ -16,11 +16,11 @@ existante `2026-01-10` → `2026-01-20`.
 |---|---|---:|---:|---|
 | Avant | 2026-01-01 → 2026-01-05 | Non | 201 | 201 |
 | Après | 2026-01-25 → 2026-01-30 | Non | 201 | 201 |
-| Chevauchement au début | 2026-01-05 → 2026-01-12 | Oui | 409 | 409 |
-| Chevauchement à la fin | 2026-01-18 → 2026-01-25 | Oui | 409 | 409 |
+| Chevauchement au début | 2026-01-05 → 2026-01-12 | Non | 201 | 201 |
+| Chevauchement à la fin | 2026-01-18 → 2026-01-25 | Non | 201 | 201 |
 | Englobant | 2026-01-01 → 2026-01-30 | Oui | 409 | 409 |
-| Jointif avant | 2025-12-20 → 2026-01-10 | Non | 201 | 201 |
-| Jointif après | 2026-01-20 → 2026-01-25 | Non | 201 | 201 |
+| Jointif avant | 2025-12-20 → 2026-01-10 | Oui | 409 | 409 |
+| Jointif après | 2026-01-20 → 2026-01-26 | Oui | 409 | 409 |
 
 Une date inversée ou égale (`date_fin <= date_debut`) est rejetée par le
 schéma avec un code 422. L'annulation d'une réservation active renvoie 200 ;

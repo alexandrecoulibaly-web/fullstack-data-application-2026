@@ -1,6 +1,6 @@
-# Revue des migrations et de l'étape 4
+# Revue des migrations
 
-## Migration initiale
+## Etape 3 - 4
 
 La migration `c1c722c2828c_schema_initial.py` crée les tables dans l'ordre
 `users`, `items`, puis `reservations`. Elle contient les deux contraintes de
@@ -9,26 +9,25 @@ leurs actions `ondelete`, ainsi que les index sur les clés étrangères. Son
 `downgrade()` supprime les index et les tables dans l'ordre inverse.
 
 Le modèle `Item` utilise `Numeric(8, 2)` pour `tarif_jour`, et les dates et
-contraintes sont reproduites dans la migration. La migration est donc prête
-pour un test `upgrade`/`downgrade`; ce test doit être exécuté avec PostgreSQL.
+contraintes sont reproduites dans la migration. 
 
-## Piège du renommage
+### Piège du renommage
 
 Une autogénération Alembic ne connaît pas l'intention d'un renommage : elle
 peut produire la suppression de `tarif_jour` suivie de la création de
 `prix_jour`. Appliquer cette migration ferait perdre les valeurs existantes.
-La correction attendue est `op.alter_column("items", "tarif_jour",
+La correction est `op.alter_column("items", "tarif_jour",
 new_column_name="prix_jour")`, avec l'opération inverse dans `downgrade()`.
 La migration d'exercice est ensuite supprimée et le modèle conserve
 `tarif_jour`.
 
-## Traduction des exceptions
+### Traduction des exceptions
 
 Un gestionnaire global dans `app/main.py` traduit les exceptions métier en
 réponses HTTP. Ce choix évite de répéter le même `try/except` dans chaque
 route, tout en laissant les services indépendants de FastAPI.
 
-## Étape 5 — N+1 sur le propriétaire
+## Etape 5 — N+1 sur le propriétaire
 
 Le schéma `OwnerRead` expose uniquement `id` et `display_name`. Il n'expose
 ni `email` ni `password_hash`. Le repository charge la relation `Item.owner`

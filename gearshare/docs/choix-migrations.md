@@ -29,6 +29,5 @@ Le service `frontend` ne reçoit pas `env_file`. Il utilise uniquement
    concerne que le processus Uvicorn du backend. Le service de migration
    termine avant le premier démarrage de celui-ci.
 
-Cette option sépare clairement la migration, permet d'observer son statut
-dans `docker compose ps -a` et empêche l'API de démarrer si le schéma n'est
+Cette option sépare clairement la migration et empêche l'API de démarrer si le schéma n'est
 pas prêt.
